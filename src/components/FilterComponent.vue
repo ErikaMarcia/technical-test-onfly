@@ -33,10 +33,9 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, defineEmits, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import placeData from '../data/place.json'
 import { Place } from './models'
-import { createWebHistory } from 'vue-router'
 
 export default defineComponent({
   name: 'FilterComponent',
@@ -44,7 +43,7 @@ export default defineComponent({
   data () {
     const places = ref<Place[]>()
     return {
-      destiny: 'Belo Horizonte, MG',
+      destiny: 'Belo Horizonte',
       disableSubmitButton: true,
       places
     }

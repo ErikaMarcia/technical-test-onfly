@@ -38,9 +38,7 @@ export default defineComponent({
       'Melhor Avaliados'
     ]
     const orderBy = ref(options[0])
-    const onOrderByChange = (value: string) => {
-      orderBy.value = value
-    }
+
     function onOpenDrawer (hotel: Hotel) {
       emit('open-drawer', hotel)
     }
@@ -50,18 +48,18 @@ export default defineComponent({
       hotels,
       orderBy,
       openDrawer,
-      onOrderByChange,
       onOpenDrawer
     }
   },
   data (): { city: string, ordeBy: string } {
     return {
-      ordeBy: 'Recomendados',
-      city: 'Belo Horizonte'
+      city: 'Belo Horizonte',
+      ordeBy: 'Recomendados'
     }
   },
   created () {
     this.getHotels()
+    this.onOrderByChange(0)
   },
   methods: {
     getHotels (place?: Place) {
@@ -81,6 +79,23 @@ export default defineComponent({
         hotelsList.push(hotel)
       })
       this.hotels = hotelsList
+    },
+    onOrderByChange (value: string) {
+      this.orderBy = value
+      if (this.orderBy === this.options[0]) {
+        return
+      }
+      if (this.orderBy === this.options[1]) {
+        this.hotels.sort((a, b) => a.name.localeCompare(b.name))
+        return
+      }
+      if (this.orderBy === this.options[2]) {
+        this.hotels.sort((a, b) => {
+          const starsA = Number.parseInt(a.stars)
+          const starsB = Number.parseInt(b.stars)
+          return starsB - starsA
+        })
+      }
     }
   }
 })
